@@ -1,0 +1,2 @@
+class WindowsAppMonitor:
+    pass

@@ -1,0 +1,9 @@
+# Python virtual environment
+.venv
+
+# SQLite database files
+*.db
+
+# Cache data
+__pycache__/
+.pytest_cache/
