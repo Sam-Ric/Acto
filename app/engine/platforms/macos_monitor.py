@@ -39,6 +39,12 @@ class MacOSAppMonitor(NSObject, Monitor):
         )
         print(f"Initial active app: {self.original_app_name}")
         return self
+    
+    def set_database(self, db):
+        """
+        Set the database object for logging.
+        """
+        self.db = db
 
     def appActivated_(self, notification):
         """

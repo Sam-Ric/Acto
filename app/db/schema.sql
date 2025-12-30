@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS focus (
     activity_id INTEGER NOT NULL,
     focus_time INTEGER NOT NULL DEFAULT 0,
     reg_date DATE NOT NULL,
-    FOREIGN KEY activity_id REFERENCES activities(id)
+    FOREIGN KEY (activity_id) REFERENCES activities(id)
 );
 
 /*

@@ -3,14 +3,17 @@ from time import time, sleep
 from threading import Lock
 
 class Monitor:
-    def __init__(self, focus_tolerance):
+    def __init__(self, db=None):
         """
         General AppMonitor initialization
+        Args:
+            db: Database object for storing monitor data
         """
-        self.focus_tolerance = focus_tolerance
-        self.verification_lock = Lock()
+        self.db = db
+        self.focus_tolerance = None
         self.original_app_name = None
         self.current_app_name = None
+        self.verification_lock = Lock()
         self.activity_start = int(time())
 
     def focus_change(self):
