@@ -3,7 +3,17 @@
 */
 CREATE TABLE IF NOT EXISTS activities (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL
+    name TEXT UNIQUE NOT NULL
+);
+
+/*
+    Apps per activity
+*/
+CREATE TABLE IF NOT EXISTS apps (
+    name TEXT UNIQUE NOT NULL,
+    activity_id INTEGER NOT NULL,
+    FOREIGN KEY (activity_id) REFERENCES activities(id),
+    PRIMARY KEY (activity_id, name)
 );
 
 /*
