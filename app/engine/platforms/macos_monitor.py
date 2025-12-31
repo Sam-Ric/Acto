@@ -17,10 +17,14 @@ class MacOSAppMonitor(NSObject, Monitor):
         """
         App Monitor initialization
         """
+        # Call NSObject's init method
         config = load_config()
         self = objc_super(MacOSAppMonitor, self).init()
         if self is None:
             return None
+        
+        # Call Monitor's constructor
+        Monitor.__init__(self)
 
         # Python-specific initialization
         self.focus_tolerance = config['engine']['focus_tolerance']
@@ -39,12 +43,6 @@ class MacOSAppMonitor(NSObject, Monitor):
         )
         print(f"Initial active app: {self.original_app_name}")
         return self
-    
-    def set_database(self, db):
-        """
-        Set the database object for logging.
-        """
-        self.db = db
 
     def appActivated_(self, notification):
         """
@@ -56,6 +54,7 @@ class MacOSAppMonitor(NSObject, Monitor):
             print(f"Switched to: {self.current_app_name}")
             # Only start a new verification if one is not already running
             if not self.verification_lock.locked():
+                self.new_activity_start = int(time())   # Register when the new activity started
                 Thread(name="focus_thread", target=self.focus_change).start()
             else:
                 print("[DEBUG] Focus change ignored: verification in progress")

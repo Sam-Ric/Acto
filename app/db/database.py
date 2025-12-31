@@ -17,7 +17,7 @@ class Database:
             db_path = os.path.dirname(__file__) + "/database.db"
         
         # Connect to the database
-        self.conn = sqlite3.connect(db_path)
+        self.conn = sqlite3.connect(db_path, check_same_thread=False)
         self.cursor = self.conn.cursor()
     
         # Set up the database schema if it wasn't setup

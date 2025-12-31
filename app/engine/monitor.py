@@ -1,18 +1,18 @@
-import sys
 from time import time, sleep
 from threading import Lock
+from .db_handler import DBHandler
 
 class Monitor:
-    def __init__(self, db=None):
+    def __init__(self):
         """
         General AppMonitor initialization
         Args:
             db: Database object for storing monitor data
         """
-        self.db = db
-        self.focus_tolerance = None
-        self.original_app_name = None
-        self.current_app_name = None
+        self.db = DBHandler()
+        self.focus_tolerance: int = None
+        self.original_app_name: str = None
+        self.current_app_name: str = None
         self.verification_lock = Lock()
         self.activity_start = int(time())
 
@@ -27,7 +27,7 @@ class Monitor:
             print("[DEBUG] Focus change skipped: verification already running")
             return
         try:
-            timestamp = time()
+            timestamp: float = time()
             # Wait for the focus_tolerance period
             sleep(self.focus_tolerance)
 
@@ -43,8 +43,13 @@ class Monitor:
             print(f"Current app: {self.current_app_name}")
             print(f"[DEBUG] Duration: {duration} seconds")
             self.original_app_name = self.current_app_name
-            # TODO -> Send data to the logger
+            
+            # Send data to the logger
+            # -- Register focus loss
+            self.db.register_focus_loss()
+
         finally:
+            self.activity_start = self.new_activity_start   # Start monitoring the new activity
             self.verification_lock.release()
 
     def run(self):

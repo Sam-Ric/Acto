@@ -1,8 +1,12 @@
+# Log files
+*.log
+
 # Python virtual environment
 .venv
 
 # SQLite database files
 *.db
+*.db-journal
 
 # Cache data
 __pycache__/
