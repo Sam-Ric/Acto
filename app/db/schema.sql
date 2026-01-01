@@ -39,3 +39,8 @@ CREATE TABLE IF NOT EXISTS focus_loss (
     reg_date DATE NOT NULL,
     PRIMARY KEY (reg_time, reg_date)
 );
+
+/*
+    General-purpose activity for unregistered apps
+*/
+INSERT INTO activities (id, name) VALUES (-1, "common");

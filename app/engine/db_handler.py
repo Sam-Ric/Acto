@@ -40,9 +40,9 @@ class DBHandler:
         '''
 
         try:
-            self.db.cursor.execute(query1, [name])
+            self.db.cursor.execute(query1, [name.lower()])
             id = self.db.cursor.fetchone()[0]
-            self.db.cursor.executemany(query2, [[id, app_name] for app_name in apps])
+            self.db.cursor.executemany(query2, [[id, app_name.lower()] for app_name in apps])
             self.db.conn.commit()
             return True
         except Exception as e:
@@ -89,7 +89,7 @@ class DBHandler:
         ]
 
         try:
-            self.db.cursor.executemany(queries)
+            self.db.cursor.executemany(queries, [[id] * 3])
             self.db.conn.commit()
             return True
         except Exception as e:
@@ -115,12 +115,41 @@ class DBHandler:
         '''
 
         try:
-            self.db.cursor.execute(query)
+            self.db.cursor.execute(query, [activity_id, name.lower()])
             self.db.conn.commit()
             return True
         except Exception as e:
             self.db.conn.rollback()
             msg = "Error associating an app with an activity"
+            self.error_logging(msg, e)
+            return False
+
+
+    def get_activity_id(self, app_name: str) -> int:
+        """
+        Returns the ID of the activity associated with a certain app.
+        
+        :param app_name: Name of the app
+        :type app_name: str
+        :return: ID of the associated activity or -1 if the app isn't
+                associated with any activity
+        :rtype: int
+        """
+
+        query = '''
+            SELECT activity_id
+            FROM apps
+            WHERE name = ?;
+        '''
+
+        try:
+            self.db.cursor.execute(query, [app_name.lower()])
+            id = self.db.cursor.fetchone()
+            if id is None:
+                return -1
+            return id[0]
+        except Exception as e:
+            msg = "Error fetching activity ID"
             self.error_logging(msg, e)
             return False
 
@@ -168,11 +197,37 @@ class DBHandler:
         '''
 
         try:
-            self.db.cursor.execute(query, [activity_id, app_name])
+            self.db.cursor.execute(query, [activity_id, app_name.lower()])
             self.db.conn.commit()
         except Exception as e:
             self.db.conn.rollback()
             msg = "Error removing an app association"
+            self.error_logging(msg, e)
+            return False
+
+
+    def register_focus(self, activity_id: int, focus_time: int) -> bool:
+        """
+        Registers a user's focus period for a certain activity.
+        
+        :param activity_id: ID of the activity
+        :type activity_id: int
+        :param focus_time: Duration of the activity period in seconds
+        :type focus_time: int
+        """
+
+        query = '''
+            INSERT INTO focus (activity_id, focus_time, reg_date)
+            VALUES (?, ?, DATE());
+        '''
+
+        try:
+            self.db.cursor.execute(query, [activity_id, focus_time])
+            self.db.conn.commit()
+            return True
+        except Exception as e:
+            self.db.conn.rollback()
+            msg = "Error registering focus"
             self.error_logging(msg, e)
             return False
 

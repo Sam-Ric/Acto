@@ -15,6 +15,8 @@ class Monitor:
         self.current_app_name: str = None
         self.verification_lock = Lock()
         self.activity_start = int(time())
+        self.new_activity_start = None
+        self.activity_id: int = None
 
     def focus_change(self):
         """
@@ -26,6 +28,13 @@ class Monitor:
         if not self.verification_lock.acquire(blocking=False):
             print("[DEBUG] Focus change skipped: verification already running")
             return
+                
+        # Check if the newly focused app is from the same activity
+        if self.activity_id == self.db.get_activity_id(self.current_app_name):
+            print("[DEBUG] Focus change skipped: new app associated with the same activity")
+            self.verification_lock.release()
+            return
+
         try:
             timestamp: float = time()
             # Wait for the focus_tolerance period
@@ -45,8 +54,13 @@ class Monitor:
             self.original_app_name = self.current_app_name
             
             # Send data to the logger
+            # -- Register focus period
+            self.db.register_focus(self.activity_id, duration)
             # -- Register focus loss
             self.db.register_focus_loss()
+
+            # Update the new activity on the monitor's side
+            self.activity_id = self.db.get_activity_id(self.current_app_name)
 
         finally:
             self.activity_start = self.new_activity_start   # Start monitoring the new activity
