@@ -3,7 +3,7 @@ This module receives data from the AppMonitors and stores it
 in the database.
 """
 
-from pathlib import Path
+from os import path
 from datetime import datetime
 from app.db.database import Database
 
@@ -263,7 +263,7 @@ class DBHandler:
         :param e: Caught exception
         :type e: Exception
         """
-        log_path = str(Path(__file__).resolve().parent) + '_errors.log'
+        log_path = path.join(path.dirname(__file__), '..', '..', 'errors.log')
         reg_time = datetime.now().strftime("%H:%M:%S")
         reg_date = datetime.now().strftime("%d/%m/%Y")
         with open(log_path, "a") as f:
