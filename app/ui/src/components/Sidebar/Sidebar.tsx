@@ -5,12 +5,14 @@ import home from '../../assets/home.svg';
 import stats from '../../assets/stats.png';
 import settings from '../../assets/settings.svg';
 
-export default function Sidebar() {
+export default function Sidebar({ onToggle }: { onToggle: (expanded: boolean) => void }) {
     const [isExpanded, setIsExpanded] = useState(true);
 
     // Toggle sidebar visibility
     const toggleSidebar = () => {
-        setIsExpanded(!isExpanded);
+        const newState = !isExpanded;
+        setIsExpanded(newState);
+        onToggle(newState); // Notify parent component
     };
 
     return (
@@ -21,17 +23,17 @@ export default function Sidebar() {
                 {/* List of available pages */}
                 <div className="pages">
                     {/* Home page */}
-                    <a className={`home page ${isExpanded ? 'full' : 'minimal'}`} href="/">
+                    <a className={`page ${isExpanded ? 'full' : 'minimal'}`} href="/">
                         <img src={home} />
                         <p>Home</p>
                     </a>
                     {/* Stats page */}
-                    <a className={`stats page ${isExpanded ? 'full' : 'minimal'}`} href="/stats">
+                    <a className={`page ${isExpanded ? 'full' : 'minimal'}`} href="/stats">
                         <img src={stats} />
                         <p>Stats</p>
                     </a>
                     {/* Settings page */}
-                    <a className={`settings page ${isExpanded ? 'full' : 'minimal'}`} href="/settings">
+                    <a className={`page ${isExpanded ? 'full' : 'minimal'}`} href="/settings">
                         <img src={settings} />
                         <p>Settings</p>
                     </a>

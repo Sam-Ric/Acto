@@ -25,10 +25,27 @@
   background-color: var(--secondary-color);
   
   font-family: "DM Sans", system-ui, sans-serif;
+
+  --sidebar-expanded-width: 220px;
+  --sidebar-collapsed-width: 80px;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  width: calc(100vw - var(--sidebar-expanded-width));
+  margin-left: var(--sidebar-expanded-width);
+  align-items: center;
+  transition: margin-left 0.25s ease, width 0.25s ease;
+}
+
+.main.collapsed {
+  width: calc(100vw - var(--sidebar-collapsed-width));
+  margin-left: var(--sidebar-collapsed-width);
 }
