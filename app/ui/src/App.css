@@ -21,6 +21,7 @@
   --secondary-text: #3f4045;
   --accents: #c2e3d8;
   --shades: #c4c4c4;
+  --item-border: #d9d9d9;
   
   background-color: var(--secondary-color);
   
@@ -43,6 +44,19 @@
   margin-left: var(--sidebar-expanded-width);
   align-items: center;
   transition: margin-left 0.25s ease, width 0.25s ease;
+}
+
+.main h2 {
+    position: fixed;
+    top: -0.6rem;
+    right: -0.6rem;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    box-shadow: -1px 1px 3px var(--shades);
+    text-decoration: dashed;
+    text-decoration-line: underline;
+    padding: 1.1rem 1.5rem 0.7rem 1rem;
+    border-radius: 10px;
 }
 
 .main.collapsed {

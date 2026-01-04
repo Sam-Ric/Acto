@@ -6,7 +6,7 @@ interface SwitchParams {
     size?: string;
 };
 
-export default function Switch({ onToggle, size = "8rem" }: SwitchParams) {
+export default function Switch({ onToggle, size = "7rem" }: SwitchParams) {
     const [status, setStatus] = useState(false);
 
     // Handle status changes

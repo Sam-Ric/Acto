@@ -4,14 +4,6 @@
     gap: 2rem;
 }
 
-.home h2 {
-    position: fixed;
-    top: 1.4rem;
-    color: var(--primary-color);
-    text-decoration: dashed;
-    text-decoration-line: underline;
-}
-
 .home .main p {
     color: var(--secondary-text);
 }

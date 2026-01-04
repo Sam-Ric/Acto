@@ -1,0 +1,13 @@
+.application {
+    color: var(--primary-text);
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--item-border);
+    border-radius: 10px;
+    transition:
+        transform 0.25s ease,
+        background-color 0.3s ease;
+}
+
+.application:hover {
+    transform: translateX(7px);
+}

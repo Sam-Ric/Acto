@@ -1,42 +1,36 @@
-import { useState } from 'react';
 import './Sidebar.css';
 import menu from '../../assets/menu.svg';
 import home from '../../assets/home.svg';
 import stats from '../../assets/stats.png';
 import settings from '../../assets/settings.svg';
+import { useSidebar } from '../../components/SidebarContext';
+import { Link } from 'react-router-dom';
 
-export default function Sidebar({ onToggle }: { onToggle: (expanded: boolean) => void }) {
-    const [isExpanded, setIsExpanded] = useState(true);
-
-    // Toggle sidebar visibility
-    const toggleSidebar = () => {
-        const newState = !isExpanded;
-        setIsExpanded(newState);
-        onToggle(newState); // Notify parent component
-    };
+export default function Sidebar() {
+    const { isSidebarExpanded, toggleSidebar } = useSidebar();
 
     return (
         <>
             {/* Menu icon */}
             <img className="menu" src={menu} onClick={toggleSidebar} />
-            <div className={`sidebar ${isExpanded ? 'expanded' : 'collapsed'}`}>
+            <div className={`sidebar ${isSidebarExpanded ? 'expanded' : 'collapsed'}`}>
                 {/* List of available pages */}
                 <div className="pages">
                     {/* Home page */}
-                    <a className={`page ${isExpanded ? 'full' : 'minimal'}`} href="/">
+                    <Link className={`page ${isSidebarExpanded ? 'full' : 'minimal'}`} to="/">
                         <img src={home} />
                         <p>Home</p>
-                    </a>
+                    </Link>
                     {/* Stats page */}
-                    <a className={`page ${isExpanded ? 'full' : 'minimal'}`} href="/stats">
+                    <Link className={`page ${isSidebarExpanded ? 'full' : 'minimal'}`} to="/stats">
                         <img src={stats} />
                         <p>Stats</p>
-                    </a>
+                    </Link>
                     {/* Settings page */}
-                    <a className={`page ${isExpanded ? 'full' : 'minimal'}`} href="/settings">
+                    <Link className={`page ${isSidebarExpanded ? 'full' : 'minimal'}`} to="/settings">
                         <img src={settings} />
                         <p>Settings</p>
-                    </a>
+                    </Link>
                 </div>
             </div>
         </>

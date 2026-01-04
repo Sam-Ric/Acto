@@ -4,7 +4,7 @@
     justify-content: flex-start;
     background-color: var(--shades);
     aspect-ratio: 2/1;
-    border-radius: 100rem;
+    border-radius: 100px;
     box-shadow:
         inset 2px 2px 4px rgba(0, 0, 0, 0.25),
         inset -2px -2px 4px rgba(255, 255, 255, 0.8);
